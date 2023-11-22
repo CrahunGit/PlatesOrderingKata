@@ -3,21 +3,28 @@
 
 @using Domain
 @using Domain.Domain
+@using FluentValidation
 @using Microsoft.EntityFrameworkCore
 
 @inject AppDbContext context
 
 <h3>OrderPage</h3>
 
-<button @onclick=@(() => showForm = true)>Add new one</button>
+<button @onclick="@(() => showForm = true)">Add new one</button>
 
 @if (showForm)
 {
-    <form data-enhance @onsubmit="Save">
-        <input type="text" @bind="plate.Name" />
-        <input type="number" @bind="plate.Price" />
+    <EditForm FormName="SavePlateOrder" Model="plate" OnValidSubmit="Save">
+        <Blazored.FluentValidation.FluentValidationValidator />
+
+        <InputText @bind-Value="plate.Name"></InputText>
+        <ValidationMessage For="@(() => plate.Name)"></ValidationMessage>
+
+        <InputNumber @bind-Value="plate.Price"></InputNumber>
+        <ValidationMessage For="@(() => plate.Price)"></ValidationMessage>
+
         <button type="submit">Enviar</button>
-    </form>
+    </EditForm>
 }
 
 @if (isLoaded is false)
@@ -57,11 +64,5 @@ else
         showForm = false;
         plate = new();
         StateHasChanged();
-    }
-
-    class DtoPlate
-    {
-        public string Name { get; set; } = default!;
-        public decimal? Price { get; set; }
     }
 }

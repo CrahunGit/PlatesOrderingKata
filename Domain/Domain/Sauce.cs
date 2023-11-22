@@ -16,7 +16,7 @@ public class Sauce
         Price = price;
     }
 
-    public Sauce()
+    internal Sauce()
     {
         
     }

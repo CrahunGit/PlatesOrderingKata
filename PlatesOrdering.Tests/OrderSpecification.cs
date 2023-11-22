@@ -45,11 +45,23 @@ public class OrderSpecification
         orderingPlates.Price.Should().Be(13.25m);
     }
 
-    private Wok GetOrderingWokPlate()
+    [Fact]
+    public void Wok_plate_should_costs_base_price_with_two_ingredients_price()
     {
-        var plate = new Wok("wok", 1);
-        plate.AddSauce(new Sauce(price: 1));
-        plate.AddIngredient(new Ingredient());
+        //Act
+        var orderingPlates = GetOrderingWokPlate(price: 12.25m);
+
+        //Assert
+        orderingPlates.Price.Should().Be(14.25m);
+    }
+
+    private Wok GetOrderingWokPlate(decimal price = 12.25m)
+    {
+        var sauce = new Sauce(price: 1);
+        var ingredient = new Ingredient(price: 1);
+
+        var plate = new Wok("wok", price, sauce, ingredient);
+        plate.AddIngredient(new Ingredient(price: 1));
         return plate;
     }
 

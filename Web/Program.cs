@@ -1,8 +1,11 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Web.Features;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
