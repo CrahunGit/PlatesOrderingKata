@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 
-namespace PlatesOrdering.Tests.Domain;
+namespace Domain.Domain;
 
 public class Starter : Plate
 {
@@ -12,10 +12,15 @@ public class Starter : Plate
 
     public int FreeSauces { get; init; }
 
-    public Starter(decimal price, int freeSauces) : base(price)
+    public Starter(string name, decimal price, int freeSauces) : base(name, price)
     {
         Guard.Against.NegativeOrZero(freeSauces);
         FreeSauces = freeSauces;
+    }
+
+    internal Starter()
+    {
+
     }
 
     public void AddSauce(Sauce sauce) => _sauces.Add(sauce);

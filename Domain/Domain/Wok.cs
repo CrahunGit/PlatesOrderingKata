@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace PlatesOrdering.Tests.Domain;
+﻿namespace Domain.Domain;
 
 public class Wok : Plate
 {
@@ -13,5 +11,10 @@ public class Wok : Plate
     public void AddSauce(Sauce sauce) => _sauces.Add(sauce);
     public void AddIngredient(Ingredient ingredient) => _ingredients.Add(ingredient);
 
-    public Wok(decimal price) : base(price) { }
+    public Wok(string name, decimal price) : base(name, price) { }
+
+    internal Wok()
+    {
+            
+    }
 }

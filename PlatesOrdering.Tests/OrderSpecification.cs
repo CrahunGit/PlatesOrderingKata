@@ -1,5 +1,5 @@
+using Domain.Domain;
 using FluentAssertions;
-using PlatesOrdering.Tests.Domain;
 
 namespace PlatesOrdering.Tests;
 
@@ -47,7 +47,7 @@ public class OrderSpecification
 
     private Wok GetOrderingWokPlate()
     {
-        var plate = new Wok(1);
+        var plate = new Wok("wok", 1);
         plate.AddSauce(new Sauce(price: 1));
         plate.AddIngredient(new Ingredient());
         return plate;
@@ -55,13 +55,13 @@ public class OrderSpecification
 
     private Closed GetOrderingClosedPlate(decimal price)
     {
-        var plate = new Closed(price);
+        var plate = new Closed("Closed", price);
         return plate;
     }
 
     private Starter GetOrderingStarterPlateWith2Sauces(decimal price, int freeSauces)
     {
-        var plate = new Starter(price, freeSauces);
+        var plate = new Starter("Starter", price, freeSauces);
         plate.AddSauce(new Sauce(price: 1));
         plate.AddSauce(new Sauce(price: 1));
         return plate;

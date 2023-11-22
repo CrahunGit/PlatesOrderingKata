@@ -1,0 +1,67 @@
+﻿@page "/orders"
+@rendermode InteractiveServer
+
+@using Domain
+@using Domain.Domain
+@using Microsoft.EntityFrameworkCore
+
+@inject AppDbContext context
+
+<h3>OrderPage</h3>
+
+<button @onclick=@(() => showForm = true)>Add new one</button>
+
+@if (showForm)
+{
+    <form data-enhance @onsubmit="Save">
+        <input type="text" @bind="plate.Name" />
+        <input type="number" @bind="plate.Price" />
+        <button type="submit">Enviar</button>
+    </form>
+}
+
+@if (isLoaded is false)
+{
+    <span>Loading....</span>
+}
+else
+{
+    <ul>
+        @foreach (var plate in plates)
+        {
+            <li>@plate.Name @plate.Price</li>
+        }
+    </ul>
+}
+
+@code {
+    List<Plate> plates = new();
+    bool isLoaded = false;
+    bool showForm = false;
+    DtoPlate plate = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        plates = await context.Plates.ToListAsync();
+        isLoaded = true;
+    }
+
+    private async Task Save()
+    {
+        var newPlate = new Plate(plate.Name, plate.Price ?? 0);
+        context.Add(newPlate);
+        await context.SaveChangesAsync();
+
+        plates = await context.Plates.ToListAsync();
+        isLoaded = true;
+        showForm = false;
+        plate = new();
+        StateHasChanged();
+    }
+
+    class DtoPlate
+    {
+        public string Name { get; set; } = default!;
+        public decimal? Price { get; set; }
+    }
+}
